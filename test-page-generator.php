@@ -28,10 +28,39 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 Copyright (C) 2020 Ian
 */
 
-if (!defined('ABSPATH'))
+if (!defined("ABSPATH"))
 {
 	wp_die;
 }
+
+class TestPageGenerator
+{
+	
+	function activate()
+	{
+		
+	}
+	function deactivate()
+	{
+		
+	}
+	function uninstall()
+	{
+			
+	}
+}
+
+if (class_exists("TestPageGenerator"))
+{
+	$testPageGenerator = new TestPageGenerator();
+}
+
+//activation
+register_activation_hook(__FILE__, array($testPageGenerator,'activate'));
+
+//deactivation
+
+//uninstall
 
 /**
  * Summary.
