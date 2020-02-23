@@ -36,49 +36,37 @@ register_activation_hook(__FILE__, "create_test_pages");
 
 register_deactivation_hook(__FILE__, "trash_test_pages");
 
-/**
- * Summary.
- *
- * Description.
- *
- * @since x.x.x
- *
- * @see Function/method/class relied on
- * @link URL
- * @global type $varname Description.
- * @global type $varname Description.
- *
- * @param type $var Description.
- * @param type $var Optional. Description. Default.
- * @return type Description.
- */
- 
 function create_test_pages()
 {
 	if (!category_exists("Test"))
 	{
-		wp_insert_category($category_data);
-		
 		$category_data = array(
 		"cat_name" => "Test",
 		"category_description" => "Used for the Test Page Generator Plugin",
 		"category_nicename" => "Test"
-	);
+		);
+		
+		wp_insert_category($category_data);
 	}
 	
 	$catID = get_cat_ID("Test");
 	
-	$post_data = array(
-		"post_title" => "Trial",
+	$numPages = 10;
+	$num = 1;	//will be included in the page that will be generated; it's incremented in the function below 
+	
+	for ($i = $num; $i <= $numPages; $i++)
+	{
+		$title = "Test" . " " . $i;
+		$post_data = array(
+		"post_title" => $title,
 		"post_type" => "post",
-		"post_content" => $catID,
+		"post_content" => $title,
 		"post_status" => "publish",
 		"post_category" => array($catID)
 	);
 	wp_insert_post($post_data);	
+	}
 }
-
-
 
 function trash_test_pages()
 {
@@ -89,7 +77,6 @@ function trash_test_pages()
 	{
 		wp_trash_post($page->ID,false);
 	}
-	
 }
 
 ?>
