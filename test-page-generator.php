@@ -1,14 +1,13 @@
 <?php
-/**
+/*
 * Plugin Name: Test Page Generator
 * Plugin URI: https://iansackofwits.com
-* Description: This plug-in will create pages that will be useful for testing out the 
-functionality of a plug-in.
+* Description: This plug-in will create pages that will be useful for testing out the functionality of a plug-in.
 * Version: 1.0
 * Author: Ian
 * Author URI: https://iansackofwits.com
 * License: GPLv2 or later
-**/
+*/
 
 /*
 This program is free software; you can redistribute it and/or
@@ -33,7 +32,7 @@ if (!defined("ABSPATH"))
 	wp_die;
 }
 
-register_activation_hook(__FILE__, );
+register_activation_hook(__FILE__, "create_test_pages");
 
 /**
  * Summary.
@@ -54,16 +53,20 @@ register_activation_hook(__FILE__, );
  
 function create_test_pages()
 {
-	$post_data = array (
-		$name => "Trial",
-		$type => "post",
-		$content => "Test Page",
-		$status => "publish"
-		$category => "Test"
+	$category_data = array(
+		"cat_name" => "Test",
+	);
+	
+	$cat_id = wp_insert_category($category_data);
+	
+	$post_data = array(
+		"post_title" => "Trial",
+		"post_type" => "post",
+		"post_content" => "Test Page",
+		"post_status" => "publish",
+		"post_category" => array($cat_id)
 	);
 	wp_insert_post($post_data);	
-
 }
-
 
 ?>
