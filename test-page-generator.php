@@ -52,15 +52,18 @@ function create_test_pages()
 	$catID = get_cat_ID("Test");
 	
 	$numPages = 10;
-	$num = 1;	//will be included in the page that will be generated; it's incremented in the function below 
 	
-	for ($i = $num; $i <= $numPages; $i++)
+	$contentArr = ["<p>Hi</p>","<h1>Hi</h1>","<h2>Hi</h2>","<h3>Hi</h3>","<h4>Hi</h4>"
+	,"<b>Hi</b>","<i>Hi</i>","<p>Hello</p>","<h5>Hi</h5>","<h3>Hello</h3>"];
+	
+	for ($i = 1; $i <= $numPages; $i++)
 	{
-		$title = "Test" . " " . $i;
+		$title = "Test Page" . " " . $i;
+		
 		$post_data = array(
 		"post_title" => $title,
 		"post_type" => "post",
-		"post_content" => $title,
+		"post_content" => $contentArr[$i-1],
 		"post_status" => "publish",
 		"post_category" => array($catID)
 	);
