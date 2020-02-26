@@ -36,8 +36,31 @@ register_activation_hook(__FILE__, "create_test_pages");
 
 register_deactivation_hook(__FILE__, "trash_test_pages");
 
+function addPage()
+{
+	$page_title = "Test Page Generator Settings";
+	$menu_title = "Test Page";
+	$capability = "manage_options";
+	$menu_slug = "test-page-generator";
+	$pluginFunction = "pluginPage";
+	add_menu_page($page_title,$menu_title,$capability,$menu_slug,$pluginFunction);
+
+}
+
+add_action("admin_menu", "addPage");
+
+function pluginPage()
+{
+	?>
+	<div class="wrap">
+		<h2><?php echo esc_html(get_admin_page_title())?></h2>
+	</div>
+	<?php
+}
+
 function create_test_pages()
 {
+
 	if (!category_exists("Test"))
 	{
 		$category_data = array(
@@ -45,21 +68,21 @@ function create_test_pages()
 		"category_description" => "Used for the Test Page Generator Plugin",
 		"category_nicename" => "Test"
 		);
-		
+
 		wp_insert_category($category_data);
 	}
-	
+
 	$catID = get_cat_ID("Test");
-	
+
 	$numPages = 10;
-	
+
 	$contentArr = ["<p>Hi</p>","<h1>Hi</h1>","<h2>Hi</h2>","<h3>Hi</h3>","<h4>Hi</h4>"
 	,"<b>Hi</b>","<i>Hi</i>","<p>Hello</p>","<h5>Hi</h5>","<h3>Hello</h3>"];
-	
+
 	for ($i = 1; $i <= $numPages; $i++)
 	{
 		$title = "Test Page" . " " . $i;
-		
+
 		$post_data = array(
 		"post_title" => $title,
 		"post_type" => "post",
@@ -67,7 +90,7 @@ function create_test_pages()
 		"post_status" => "publish",
 		"post_category" => array($catID)
 	);
-	wp_insert_post($post_data);	
+	wp_insert_post($post_data);
 	}
 }
 
@@ -75,7 +98,7 @@ function trash_test_pages()
 {
 	$catID = get_cat_ID("Test");
 	$pages = get_posts(array("post_type" => "post", "numberposts" => -1, "category" => array($catID)));
-	
+
 	foreach($pages as $page)
 	{
 		wp_trash_post($page->ID,false);
