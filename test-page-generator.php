@@ -47,7 +47,13 @@ function addPage()
 
 }
 
+function testPageEnqueue()
+{
+	wp_enqueue_script("testPageAjax", plugin_dir_url(__FILE__) . "settings.js");
+}
+
 add_action("admin_menu", "addPage");
+add_action("admin_enqueue_scripts", "testPageEnqueue");
 
 function pluginPage()
 {
