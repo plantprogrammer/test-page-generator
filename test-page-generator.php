@@ -50,6 +50,7 @@ function addPage()
 function testPageEnqueue()
 {
 	wp_enqueue_script("testPageAjax", plugin_dir_url(__FILE__) . "settings.js");
+	wp_enqueue_script("jquery");
 }
 
 add_action("admin_menu", "addPage");
