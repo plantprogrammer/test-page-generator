@@ -54,12 +54,13 @@ function pluginPage()
 	?>
 	<div class="wrap">
 		<h2><?php echo esc_html(get_admin_page_title())?></h2>
-		<form action="/action_page.php">
-			<label for="num_pages">Number of Pages to Generate</label>
-			<input type="text" name="num_pages" value="Doesn't Work Yet">
+		<form id="numPages" action="" method="POST">
+			<label for="numPages">Number of Pages to Generate</label>
+			<input type="input" name="numPages" value="">
+			<?php submit_button();?>
 		</form>
 	</div>
-	<?php submit_button();
+	<?php 
 }
 
 function create_test_pages()
