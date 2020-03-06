@@ -1,9 +1,17 @@
 jQuery(document).ready(function($)
 {
-	
-	$("#numPages").submit(function()
+	$("#numPages").submit(function()				  
 	{
-		alert("Currently not working");
+		data = 
+		{
+			action: "test_page",
+			pages: $("input:text").val()
+		};
+		
+		$.post(ajaxurl, data, function(response)
+		{
+		}
+		);
 	});
 	
 });
