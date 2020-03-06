@@ -50,34 +50,38 @@ function addPage()
 function testPageEnqueue()
 {
 	wp_enqueue_script("testPageAjax", plugin_dir_url(__FILE__) . "settings.js");
+	wp_enqueue_style("testPageStyle", plugin_dir_url(__FILE__) . "style.css");
 }
 
-function process_ajax()
+$numPages = 0;
+
+function ajax_work()
 {
-	die();
+	$numPages = (int)$_POST["pages"];
+	create_test_pages($numPages);
+	wp_die();
 }
 
 add_action("admin_menu", "addPage");
 add_action("admin_enqueue_scripts", "testPageEnqueue");
-add_action("wp_ajax_test_page","process_ajax");
+add_action("wp_ajax_test_page","ajax_work");
 
 function pluginPage()
 {
 	?>
 	<div class="wrap">
-		<h2><?php echo esc_html(get_admin_page_title())?></h2>
+		<h2 id="heading"><?php echo esc_html(get_admin_page_title())?></h2>
 		<form id="numPages" action="" method="POST">
 			<label for="numPages">Number of Pages to Generate</label>
-			<input type="input" name="numPages" value="">
+			<input type="text" name="numPages">
 			<?php submit_button();?>
 		</form>
 	</div>
 	<?php 
 }
 
-function create_test_pages()
+function create_test_pages($numPages)
 {
-
 	if (!category_exists("Test"))
 	{
 		$category_data = array(
@@ -90,8 +94,6 @@ function create_test_pages()
 	}
 
 	$catID = get_cat_ID("Test");
-
-	$numPages = 10;
 
 	$contentArr = ["<p>Hi</p>","<h1>Hi</h1>","<h2>Hi</h2>","<h3>Hi</h3>","<h4>Hi</h4>"
 	,"<b>Hi</b>","<i>Hi</i>","<p>Hello</p>","<h5>Hi</h5>","<h3>Hello</h3>"];
