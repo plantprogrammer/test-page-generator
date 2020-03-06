@@ -32,7 +32,7 @@ if (!defined("ABSPATH"))
 	wp_die;
 }
 
-register_activation_hook(__FILE__, "create_test_pages");
+register_activation_hook(__FILE__, "setup");
 
 register_deactivation_hook(__FILE__, "trash_test_pages");
 
@@ -66,6 +66,13 @@ add_action("admin_menu", "addPage");
 add_action("admin_enqueue_scripts", "testPageEnqueue");
 add_action("wp_ajax_test_page","ajax_work");
 
+function setup()
+{
+	$cookieName = "curPageNum";
+	$cookieValue = 1;
+	setcookie($cookieName, $cookieValue, time() + (10 * 365 * 24 * 60 * 60));
+}
+
 function pluginPage()
 {
 	?>
@@ -82,6 +89,9 @@ function pluginPage()
 
 function create_test_pages($numPages)
 {
+	$cookieName = "curPageNum";
+	$curPageNum = $_COOKIE[$cookieName];
+	
 	if (!category_exists("Test"))
 	{
 		$category_data = array(
@@ -98,19 +108,27 @@ function create_test_pages($numPages)
 	$contentArr = ["<p>Hi</p>","<h1>Hi</h1>","<h2>Hi</h2>","<h3>Hi</h3>","<h4>Hi</h4>"
 	,"<b>Hi</b>","<i>Hi</i>","<p>Hello</p>","<h5>Hi</h5>","<h3>Hello</h3>"];
 
-	for ($i = 1; $i <= $numPages; $i++)
+	$newPageTotal = $numPages + $curPageNum;
+	
+	while ($curPageNum < $newPageTotal)
 	{
-		$title = "Test Page" . " " . $i;
+		$title = "Test Page" . " " . $curPageNum;
 
 		$post_data = array(
 		"post_title" => $title,
 		"post_type" => "post",
-		"post_content" => $contentArr[$i-1],
+		"post_content" => $contentArr[$curPageNum%10],
 		"post_status" => "publish",
-		"post_category" => array($catID)
+		"post_category" => array($catID)	
+		
 	);
+	$curPageNum++;	
 	wp_insert_post($post_data);
+		
 	}
+	
+	setcookie($cookieName, $curPageNum, time() + (10 * 365 * 24 * 60 * 60));
+
 }
 
 function trash_test_pages()
