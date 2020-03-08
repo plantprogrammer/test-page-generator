@@ -55,22 +55,21 @@ function testPageEnqueue()
 
 $numPages = 0;
 
+add_action("wp_ajax_test_page","ajax_work");
+
 function ajax_work()
 {
-	$numPages = (int)$_POST["pages"];
+	$numPages = intval($_POST["pages"]);
 	create_test_pages($numPages);
 	wp_die();
 }
 
 add_action("admin_menu", "addPage");
 add_action("admin_enqueue_scripts", "testPageEnqueue");
-add_action("wp_ajax_test_page","ajax_work");
 
 function setup()
 {
-	$cookieName = "curPageNum";
-	$cookieValue = 1;
-	setcookie($cookieName, $cookieValue, time() + (10 * 365 * 24 * 60 * 60));
+
 }
 
 function pluginPage()
@@ -90,7 +89,6 @@ function pluginPage()
 function create_test_pages($numPages)
 {
 	$cookieName = "curPageNum";
-	$curPageNum = $_COOKIE[$cookieName];
 	
 	if (!category_exists("Test"))
 	{
@@ -108,6 +106,9 @@ function create_test_pages($numPages)
 	$contentArr = ["<p>Hi</p>","<h1>Hi</h1>","<h2>Hi</h2>","<h3>Hi</h3>","<h4>Hi</h4>"
 	,"<b>Hi</b>","<i>Hi</i>","<p>Hello</p>","<h5>Hi</h5>","<h3>Hello</h3>"];
 
+	$file = fopen(WP_PLUGIN_DIR. "/test-page-generator-master/settings.txt","r");
+	$curPageNum = (int)fgets($file);
+	
 	$newPageTotal = $numPages + $curPageNum;
 	
 	while ($curPageNum < $newPageTotal)
@@ -117,7 +118,7 @@ function create_test_pages($numPages)
 		$post_data = array(
 		"post_title" => $title,
 		"post_type" => "post",
-		"post_content" => $contentArr[$curPageNum%10],
+		"post_content" => $numPages,
 		"post_status" => "publish",
 		"post_category" => array($catID)	
 		
@@ -126,9 +127,7 @@ function create_test_pages($numPages)
 	wp_insert_post($post_data);
 		
 	}
-	
-	setcookie($cookieName, $curPageNum, time() + (10 * 365 * 24 * 60 * 60));
-
+	file_put_contents(WP_PLUGIN_DIR. "/test-page-generator-master/settings.txt",strval($curPageNum));
 }
 
 function trash_test_pages()
