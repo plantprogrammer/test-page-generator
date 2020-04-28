@@ -36,6 +36,12 @@ register_activation_hook(__FILE__, "setup");
 
 register_deactivation_hook(__FILE__, "trash_test_pages");
 
+function add_taxonomies_to_pages() 
+{
+	 register_taxonomy_for_object_type( 'category', 'page' );
+}
+add_action( 'init', 'add_taxonomies_to_pages' );
+
 function addPage()
 {
 	$page_title = "Test Page Generator Settings";
