@@ -80,7 +80,7 @@ function pluginPage()
 		<form id="numPages" action="" method="POST">
 			<label for="numPages">Number of Pages to Generate</label>
 			<input type="text" name="numPages">
-			<?php submit_button();?>
+			<?php submit_button("Generate");?>
 		</form>
 	</div>
 	<?php 
