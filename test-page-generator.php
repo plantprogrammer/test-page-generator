@@ -117,7 +117,7 @@ function create_test_pages($numPages)
 
 		$post_data = array(
 		"post_title" => $title,
-		"post_type" => "post",
+		"post_type" => "page",
 		"post_content" => $numPages,
 		"post_status" => "publish",
 		"post_category" => array($catID)	
