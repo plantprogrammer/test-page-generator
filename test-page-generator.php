@@ -109,8 +109,10 @@ function create_test_pages($numPages)
 
 	$catID = get_cat_ID("Test");
 
-	$contentArr = ["<p>Hi</p>","<h1>Hi</h1>","<h2>Hi</h2>","<h3>Hi</h3>","<h4>Hi</h4>"
-	,"<b>Hi</b>","<i>Hi</i>","<p>Hello</p>","<h5>Hi</h5>","<h3>Hello</h3>"];
+	$headingNum = rand(1,6);
+    	$text = "Test";
+    
+    	$textComplete = "<h" . $headingNum . ">" . $text . "</h" . $headingNum . ">";
 
 	$file = fopen(WP_PLUGIN_DIR. "/test-page-generator-master/settings.txt","r");
 	$curPageNum = (int)fgets($file);
@@ -124,7 +126,7 @@ function create_test_pages($numPages)
 		$post_data = array(
 		"post_title" => $title,
 		"post_type" => "page",
-		"post_content" => $numPages,
+		"post_content" => $textComplete,
 		"post_status" => "publish",
 		"post_category" => array($catID)	
 		
