@@ -70,6 +70,20 @@ function page_number_setting
 	}
 }
 
+function test_posts_num_add($new_value, $old_value) 
+{
+	$new_value = intval($old_value) + intval($new_value);
+	return $new_value;
+}
+
+function deal_with_settings() 
+{
+	add_filter("pre_update_option_num_pages", "test_posts_num_add", 10, 2 );
+	add_action("update_option_num_pages","create_test_posts", 10, 3);
+}
+
+add_action("init", "deal_with_settings");
+
 add_action("admin_menu", "add_settings_page");
 
 function pluginPage()
@@ -88,7 +102,7 @@ function pluginPage()
 	<?php 
 }
 
-function create_test_posts($num_posts)
+function create_test_posts($old_value,$value,$option)
 {
 	//implement some random capability to insert random text to the post
 	
@@ -96,10 +110,9 @@ function create_test_posts($num_posts)
     	
     	$textComplete = "<h" . $headingNum . ">" . $text . "</h" . $headingNum . ">";
 
-	$file = fopen(WP_PLUGIN_DIR. "/test-page-generator-master/settings.txt","r");
-	$curPageNum = (int)fgets($file);
+	$curPageNum = intval($old_value);
 	
-	$newPageTotal = $numPages + $curPageNum;
+	$newPageTotal = intval($value);
 	
 	while ($curPageNum < $newPageTotal)
 	{
