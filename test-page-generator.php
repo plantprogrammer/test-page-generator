@@ -59,14 +59,14 @@ function page_number_setting()
 	
 	$page = $settings_group;
 	$section_title = "Generate Test Posts";
-	$section_callback = "render_settings_field";
+	$field_callback = "render_settings_field";
 	add_settings_section($setting_name, $section_title, null, $page);
 	
 	$field_title = "Number of Posts";
-	add_settings_field($setting_name, $field_title, $render_settings_field, $page, $setting_name);
+	add_settings_field($setting_name, $field_title, $field_callback, $page, $setting_name);
 	function render_settings_field()
 	{
-		echo "<input type='text' id='num_pages' name='num_pages' value='" . get_option($setting_name) . "'>";	
+		echo "<input type='text' id='num_pages' name='num_pages' value='" . get_option("num_pages") . "'>";	
 	}
 }
 
