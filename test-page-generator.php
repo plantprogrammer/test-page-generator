@@ -49,8 +49,12 @@ function test_page_enqueue()
 	wp_enqueue_style("test_post_style", plugin_dir_url(__FILE__) . "style.css");
 }
 
-//make WordPress option
-function page_number
+add_action("admin_init","page_number_setting");
+
+function page_number_setting
+{
+	
+}
 $numPages = 0;
 
 add_action("admin_menu", "add_settings_page");
