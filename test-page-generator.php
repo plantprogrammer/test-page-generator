@@ -56,6 +56,18 @@ function page_number_setting
 	$settings_group = "test-post-generator";
 	$setting_name = "num_pages";
 	register_setting($settings_group, $setting_name);
+	
+	$page = $settings_group;
+	$section_title = "Generate Test Posts";
+	$section_callback = "render_settings_field";
+	add_settings_section($setting_name, $section_title, $page);
+	
+	$field_title = "Number of Posts";
+	add_settings_field($setting_name,$field_title,$render_settings_field,$page,$setting_name);
+	function render_settings_field()
+	{
+		echo "<input type='text' id='num_pages' name='num_pages' value='" . get_option($setting_name) . "'>";	
+	}
 }
 
 add_action("admin_menu", "add_settings_page");
@@ -64,11 +76,13 @@ function pluginPage()
 {
 	?>
 	<div class="wrap">
-		<h1 id="heading"><?php echo esc_html(get_admin_page_title())?></h2>
-		<form id="numPages" action="" method="POST">
-			<label for="numPages">Number of Pages to Generate</label>
-			<input type="text" name="numPages">
-			<?php submit_button("Generate");?>
+		<h1 id="heading"><?php echo esc_html(get_admin_page_title())?></h1>
+		<form action="options.php" method="POST">
+			<?php 
+			$page = "test-post-generator";
+			settings_fields($page);
+			do_settings_sections($page);
+			submit_button("Generate");?>
 		</form>
 	</div>
 	<?php 
