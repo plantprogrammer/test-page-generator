@@ -76,9 +76,10 @@ function pluginPage()
 
 function create_test_posts($num_posts)
 {
-
+	//implement some random capability to insert random text to the post
+	
     	$text = "Test";
-    
+    	
     	$textComplete = "<h" . $headingNum . ">" . $text . "</h" . $headingNum . ">";
 
 	$file = fopen(WP_PLUGIN_DIR. "/test-page-generator-master/settings.txt","r");
