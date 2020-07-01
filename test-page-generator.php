@@ -53,9 +53,10 @@ add_action("admin_init","page_number_setting");
 
 function page_number_setting
 {
-	
+	$settings_group = "test-post-generator";
+	$setting_name = "num_pages";
+	register_setting($settings_group, $setting_name);
 }
-$numPages = 0;
 
 add_action("admin_menu", "add_settings_page");
 
