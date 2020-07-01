@@ -2,7 +2,7 @@
 /*
 * Plugin Name: Test Post Generator
 * Plugin URI: https://iansackofwits.com
-* Description: This plug-in will automatically generate posts for you, reducing the time to manually create multiple pages to test whatever you need.
+* Description: This plug-in will automatically generate posts for you, reducing the time to manually create multiple posts to test whatever you need.
 * Version: 1.0
 * Author: Ian
 * Author URI: https://iansackofwits.com
@@ -29,7 +29,7 @@ Copyright (C) 2020 Ian
 
 if (!defined("ABSPATH"))
 {
-	wp_die;
+	wp_die();
 }
 
 register_deactivation_hook(__FILE__, "trash_test_posts");
@@ -44,13 +44,13 @@ function add_settings_page()
 	add_menu_page($page_title,$menu_title,$capability,$menu_slug,$pluginFunction);
 }
 
-function testPageEnqueue()
+function test_page_enqueue()
 {
-	wp_enqueue_style("testPostStyle", plugin_dir_url(__FILE__) . "style.css");
+	wp_enqueue_style("test_post_style", plugin_dir_url(__FILE__) . "style.css");
 }
 
 //make WordPress option
-
+function page_number
 $numPages = 0;
 
 add_action("admin_menu", "add_settings_page");
