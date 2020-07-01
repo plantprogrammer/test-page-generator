@@ -1,8 +1,8 @@
 <?php
 /*
-* Plugin Name: Test Page Generator
+* Plugin Name: Test Post Generator
 * Plugin URI: https://iansackofwits.com
-* Description: This plug-in will create pages that will be useful for testing out the functionality of a plug-in.
+* Description: This plug-in will automatically generate posts for you, reducing the time to manually create multiple pages to test whatever you need.
 * Version: 1.0
 * Author: Ian
 * Author URI: https://iansackofwits.com
@@ -32,57 +32,34 @@ if (!defined("ABSPATH"))
 	wp_die;
 }
 
-register_activation_hook(__FILE__, "setup");
+register_deactivation_hook(__FILE__, "trash_test_posts");
 
-register_deactivation_hook(__FILE__, "trash_test_pages");
-
-function add_taxonomies_to_pages() 
+function add_settings_page()
 {
-	 register_taxonomy_for_object_type( 'category', 'page' );
-}
-add_action( 'init', 'add_taxonomies_to_pages' );
-
-function addPage()
-{
-	$page_title = "Test Page Generator Settings";
-	$menu_title = "Test Page";
+	$page_title = "Test Post Generator Settings";
+	$menu_title = "Test Post";
 	$capability = "manage_options";
-	$menu_slug = "test-page-generator";
+	$menu_slug = "test-post-generator";
 	$pluginFunction = "pluginPage";
 	add_menu_page($page_title,$menu_title,$capability,$menu_slug,$pluginFunction);
-
 }
 
 function testPageEnqueue()
 {
-	wp_enqueue_script("testPageAjax", plugin_dir_url(__FILE__) . "settings.js");
-	wp_enqueue_style("testPageStyle", plugin_dir_url(__FILE__) . "style.css");
+	wp_enqueue_style("testPostStyle", plugin_dir_url(__FILE__) . "style.css");
 }
+
+//make WordPress option
 
 $numPages = 0;
 
-add_action("wp_ajax_test_page","ajax_work");
-
-function ajax_work()
-{
-	$numPages = intval($_POST["pages"]);
-	create_test_pages($numPages);
-	wp_die();
-}
-
-add_action("admin_menu", "addPage");
-add_action("admin_enqueue_scripts", "testPageEnqueue");
-
-function setup()
-{
-
-}
+add_action("admin_menu", "add_settings_page");
 
 function pluginPage()
 {
 	?>
 	<div class="wrap">
-		<h2 id="heading"><?php echo esc_html(get_admin_page_title())?></h2>
+		<h1 id="heading"><?php echo esc_html(get_admin_page_title())?></h2>
 		<form id="numPages" action="" method="POST">
 			<label for="numPages">Number of Pages to Generate</label>
 			<input type="text" name="numPages">
@@ -92,24 +69,9 @@ function pluginPage()
 	<?php 
 }
 
-function create_test_pages($numPages)
+function create_test_posts($num_posts)
 {
-	$cookieName = "curPageNum";
-	
-	if (!category_exists("Test"))
-	{
-		$category_data = array(
-		"cat_name" => "Test",
-		"category_description" => "Used for the Test Page Generator Plugin",
-		"category_nicename" => "Test"
-		);
 
-		wp_insert_category($category_data);
-	}
-
-	$catID = get_cat_ID("Test");
-
-	$headingNum = rand(1,6);
     	$text = "Test";
     
     	$textComplete = "<h" . $headingNum . ">" . $text . "</h" . $headingNum . ">";
@@ -133,19 +95,17 @@ function create_test_pages($numPages)
 	);
 	$curPageNum++;	
 	wp_insert_post($post_data);
-		
 	}
-	file_put_contents(WP_PLUGIN_DIR. "/test-page-generator-master/settings.txt",strval($curPageNum));
 }
 
-function trash_test_pages()
+function trash_test_posts()
 {
 	$catID = get_cat_ID("Test");
-	$pages = get_posts(array("post_type" => "post", "numberposts" => -1, "category" => array($catID)));
+	$posts = get_posts(array("post_type" => "post", "numberposts" => -1, "category" => array($catID)));
 
-	foreach($pages as $page)
+	foreach($posts as $post)
 	{
-		wp_trash_post($page->ID,false);
+		wp_trash_post($post->ID,false);
 	}
 }
 
