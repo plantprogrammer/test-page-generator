@@ -51,7 +51,7 @@ function test_page_enqueue()
 
 add_action("admin_init","page_number_setting");
 
-function page_number_setting
+function page_number_setting()
 {
 	$settings_group = "test-post-generator";
 	$setting_name = "num_pages";
