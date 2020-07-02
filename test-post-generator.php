@@ -102,8 +102,8 @@ function test_posts_num_add($new_value, $old_value)
 
 function deal_with_settings() 
 {
-	add_filter("pre_update_option_" . SETTING_NAME, "test_posts_num_add", 10, 2 );
-	add_action("update_option_" . SETTING_NAME, "create_test_posts", 10, 3);
+	add_filter("pre_update_option_" . SETTING_NAME, PLUGIN_NAMESPACE . "test_posts_num_add", 10, 2 );
+	add_action("update_option_" . SETTING_NAME, PLUGIN_NAMESPACE . "create_test_posts", 10, 3);
 }
 
 add_action("init", PLUGIN_NAMESPACE . "deal_with_settings");
