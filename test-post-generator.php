@@ -137,7 +137,7 @@ function delete_test_posts()
 	if (check_admin_referer("delete_test_posts", "test_field_nonce"))
 	    {
     		$cat_ID = get_cat_ID(CAT_NAME);
-    		$posts = get_posts(array("post_type" => "post", "numberposts" => -1, "category" => array($cat_ID)));
+    		$posts = get_posts(array("post_status" => "private", "post_type" => "post", "numberposts" => -1, "category" => array($cat_ID)));
     
     		foreach($posts as $post)
     		{
