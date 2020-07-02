@@ -47,6 +47,7 @@ function add_test_page_category()
     	    "cat_name" => CAT_NAME);
     	
     $cat_id = wp_insert_category($category_arr);
+    add_option(SETTING_NAME,"1","","no");
 }
 
 function add_settings_page()
