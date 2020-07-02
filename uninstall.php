@@ -11,12 +11,11 @@ if (!defined("WP_UNINSTALL_PLUGIN"))
 }
 
 $cat_ID = get_cat_ID(CAT_NAME);
-$pages = get_posts(array("post_type" => "post", "numberposts" => -1, "category" => array($cat_ID)));
+$posts = get_posts(array("post_type" => "post", "numberposts" => -1, "category" => array($cat_ID)));
 	
 foreach($posts as $post)
 {
 	wp_delete_post($post->ID,false);
-
 }
 
 wp_delete_category(CAT_NAME);
