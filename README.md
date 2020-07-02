@@ -1,2 +1,4 @@
 # test-page-generator
-Creating a plug-in for WordPress that will automatically generate posts with random content.
+Creating a WordPress plugin that automatically generates posts with latin text.
+
+The user can then do whatever they wish with the created posts.
