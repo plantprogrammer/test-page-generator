@@ -1,4 +1,5 @@
 === Plugin Name ===
+Author URI: https://iansackofwits.com
 Contributors: plantprogrammer
 Donate link: https://iansackofwits.com
 Tags: test post generator, test posts
