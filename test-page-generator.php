@@ -101,7 +101,7 @@ function pluginPage()
 		<form action="<?php echo admin_url('admin-post.php'); ?>" method="post">
 			<input type="hidden" name="action" value="delete_test_posts">
 			<?php submit_button("Delete");
-			wp_nonce_field("delete_test_posts");
+			wp_nonce_field("delete_test_posts","test_field_nonce");
 		</form>
 	</div>
 	<?php 
