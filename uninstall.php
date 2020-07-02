@@ -15,7 +15,7 @@ $posts = get_posts(array("post_status" => "any","post_type" => "post", "numberpo
 	
 foreach($posts as $post)
 {
-	wp_delete_post($post->ID,false);
+	wp_delete_post($post->ID,true);
 }
 
 wp_delete_category($cat_ID);
