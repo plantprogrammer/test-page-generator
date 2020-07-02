@@ -105,9 +105,10 @@ function pluginPage()
 function create_test_posts($old_value,$value,$option)
 {
 	//implement some random capability to insert random text to the post
+	//coding standard of PHP variable names
 	
     	$text = "Test";
-    	
+    	$headingNum = 1;
     	$textComplete = "<h" . $headingNum . ">" . $text . "</h" . $headingNum . ">";
 
 	$curPageNum = intval($old_value);
