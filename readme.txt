@@ -20,6 +20,11 @@ All test posts will currently be populated with latin text i.e. "Lorem ipsum..."
 
 You can easily trash all the test posts if you wish to do so.
 
+== Upgrade Notice ==
+
+= 1.0 =
+Initial release.
+
 == Frequently Asked Questions == 
 
 = Do you provide support? =
