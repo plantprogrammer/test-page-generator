@@ -18,5 +18,5 @@ foreach($posts as $post)
 	wp_delete_post($post->ID,false);
 }
 
-wp_delete_category(CAT_NAME);
+wp_delete_category($cat_ID);
 delete_option(SETTING_NAME);
