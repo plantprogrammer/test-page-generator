@@ -107,6 +107,21 @@ function pluginPage()
 	<?php 
 }
 
+function delete_test_posts() 
+{
+	if (check_admin_referer("delete_test_posts","test_field_nonce")
+	    {
+		$catID = get_cat_ID("Test");
+		$posts = get_posts(array("post_type" => "post", "numberposts" => -1, "category" => array($catID)));
+
+		foreach($posts as $post)
+		{
+			wp_trash_post($post->ID,false);
+		} 
+	    }
+}
+add_action("admin_post_delete_test_posts", "delete_test_posts");
+
 function create_test_posts($old_value,$value,$option)
 {
 	//implement some random capability to insert random text to the post
