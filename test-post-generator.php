@@ -142,7 +142,7 @@ function delete_test_posts()
 {
 	if (check_admin_referer("delete_test_posts", "test_field_nonce"))
 	    {
-    	    trash_test_posts()
+    	    trash_test_posts();
     	    wp_redirect(admin_url('admin.php?page=test-post-generator'));
 	        die();
 	    }
