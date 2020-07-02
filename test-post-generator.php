@@ -142,7 +142,7 @@ function delete_test_posts()
     
     		foreach($posts as $post)
     		{
-    			wp_trash_post($post->ID,false);
+    			wp_trash_post($post->ID);
     		}
     	    wp_redirect(admin_url('admin.php?page=test-post-generator'));
 	        die();
@@ -188,7 +188,7 @@ function trash_test_posts()
 
 	foreach($posts as $post)
 	{
-		wp_trash_post($post->ID,false);
+		wp_trash_post($post->ID);
 	}
 }
 
