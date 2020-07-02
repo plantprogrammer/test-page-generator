@@ -122,9 +122,9 @@ function plugin_settings_page()
 			submit_button("Generate");?>
 		</form>
 		<form action="<?php echo admin_url('admin-post.php'); ?>" method="post">
-		    <h2>Delete All Generated Test Posts</h2>
+		    <h2>Trash All Generated Test Posts</h2>
 			<input type="hidden" name="action" value="delete_test_posts">
-			<?php submit_button("Delete All");
+			<?php submit_button("Trash All");
 			wp_nonce_field("delete_test_posts","test_field_nonce");?>
 		</form>
 	</div>
