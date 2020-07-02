@@ -66,7 +66,7 @@ function page_number_setting()
 	add_settings_field($setting_name, $field_title, "render_settings_field", $page, $setting_name);
 	function render_settings_field()
 	{
-		echo "<input type='text' id='num_pages' name='num_pages'>";	
+		echo "<input type='number' id='num_pages' name='num_pages'>";	
 	}
 }
 
