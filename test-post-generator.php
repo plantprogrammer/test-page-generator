@@ -78,7 +78,7 @@ function page_number_setting()
 	{
 	    $validated_num = absint($input);
 	    
-	    //arbitrarily chose 1000 as the post limit
+	    //arbitrarily chose 1000 as the post limit. should be limit as WordPress hangs if it creates many posts.
 	    if ($validated_num > 1000)
 	    {
 	        $validated_num = 1000;       
