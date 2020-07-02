@@ -61,7 +61,6 @@ function add_settings_page()
 
 add_action("admin_init", PLUGIN_NAMESPACE. "page_number_setting");
 
-
 /*Sets up the settings option responsible for keeping track of the current page number*/
 function page_number_setting()
 {
@@ -72,6 +71,8 @@ function page_number_setting()
 	function setting_callback($input)
 	{
 	    $validated_num = absint($input);
+	    
+	    //arbitrarily chose 1000 as the post limit
 	    if ($validated_num > 1000)
 	    {
 	        $validated_num = 1000;       
@@ -92,6 +93,7 @@ function page_number_setting()
 	}
 }
 
+/*Increases the current page number settings option to reflect the recently added pages*/
 function test_posts_num_add($new_value, $old_value) 
 {
 	$new_value = intval($old_value) + intval($new_value);
@@ -123,16 +125,16 @@ function plugin_settings_page()
 		    <h2>Delete All Generated Test Posts</h2>
 			<input type="hidden" name="action" value="delete_test_posts">
 			<?php submit_button("Delete All");
-			wp_nonce_field("delete_test_posts","test_field_nonce");
-			?>
+			wp_nonce_field("delete_test_posts","test_field_nonce");?>
 		</form>
 	</div>
 	<?php 
 }
 
+/*Will be called when the user clicks on the button to delete the posts within the settings page*/
 function delete_test_posts() 
 {
-	if (check_admin_referer("delete_test_posts","test_field_nonce"))
+	if (check_admin_referer("delete_test_posts", "test_field_nonce"))
 	    {
     		$cat_ID = get_cat_ID(CAT_NAME);
     		$posts = get_posts(array("post_type" => "post", "numberposts" => -1, "category" => array($cat_ID)));
@@ -148,7 +150,7 @@ function delete_test_posts()
 }
 add_action("admin_post_delete_test_posts", PLUGIN_NAMESPACE . "delete_test_posts");
 
-function create_test_posts($old_value,$value,$option)
+function create_test_posts($old_value, $value, $option)
 {
 	$post_text = "<p>Lorem ipsum dolor sit amet, ad tota quaerendum per, duo debitis volumus at, ad regione voluptua quo. 
 	Mel eripuit erroribus in, eum no dicunt signiferumque. Ut integre incorrupte cum, sed at harum oratio laboramus. 
@@ -171,13 +173,13 @@ function create_test_posts($old_value,$value,$option)
 		"post_content" => $post_text,
 		"post_status" => "private",
 		"post_category" => array($cat_id)	
-		
 	);
 	$curPageNum++;	
 	wp_insert_post($post_data);
 	}
 }
 
+/*Trashes all the test posts when the plugin is deactivated*/
 function trash_test_posts()
 {
 	$cat_id = get_cat_ID(CAT_NAME);
