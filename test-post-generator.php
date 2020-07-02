@@ -183,7 +183,7 @@ function create_test_posts($old_value, $value, $option)
 function trash_test_posts()
 {
 	$cat_id = get_cat_ID(CAT_NAME);
-	$posts = get_posts(array("post_type" => "post", "numberposts" => -1, "category" => array($cat_id)));
+	$posts = get_posts(array("post_status" => "private", "post_type" => "post", "numberposts" => -1, "category" => array($cat_id)));
 
 	foreach($posts as $post)
 	{
