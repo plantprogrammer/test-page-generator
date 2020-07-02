@@ -9,6 +9,8 @@
 * License: GPLv2 or later
 */
 
+namespace test_page_generator;
+
 /*
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -32,13 +34,17 @@ if (!defined("ABSPATH"))
 	wp_die();
 }
 
-register_deactivation_hook(__FILE__, "trash_test_posts");
-register_activation_hook(__FILE__, "add_test_page_category");
+define("CAT_NAME", "Test Post");
+define("SETTING_NAME", "test_post_generator_num_pages");
+define("PLUGIN_NAMESPACE", "test_page_generator\\");
+
+register_deactivation_hook(__FILE__, PLUGIN_NAMESPACE . "trash_test_posts");
+register_activation_hook(__FILE__, PLUGIN_NAMESPACE . "add_test_page_category");
 
 function add_test_page_category()
 {
     $category_arr = array(
-    	    "cat_name" => "Test Post");
+    	    "cat_name" => CAT_NAME);
     	
     $cat_id = wp_insert_category($category_arr);
 }
@@ -49,28 +55,40 @@ function add_settings_page()
 	$menu_title = "Test Post";
 	$capability = "manage_options";
 	$menu_slug = "test-post-generator";
-	$pluginFunction = "pluginPage";
-	add_menu_page($page_title,$menu_title,$capability,$menu_slug,$pluginFunction);
+	$plugin_function = PLUGIN_NAMESPACE . "plugin_settings_page";
+	add_menu_page($page_title, $menu_title, $capability, $menu_slug, $plugin_function);
 }
 
-add_action("admin_init","page_number_setting");
+add_action("admin_init", PLUGIN_NAMESPACE. "page_number_setting");
 
+
+/*Sets up the settings option responsible for keeping track of the current page number*/
 function page_number_setting()
 {
 	$settings_group = "test-post-generator";
-	$setting_name = "test-post-generator-num-pages";
-	register_setting($settings_group, $setting_name);
+	$setting_name = SETTING_NAME;
+	$setting_callback = "check_num_pages";
+	register_setting($settings_group, $setting_name, $setting_callback);
+	function setting_callback($input)
+	{
+	    $validated_num = absint($input);
+	    if ($validated_num > 1000)
+	    {
+	        $validated_num = 1000;       
+	    }
+	    return $validated_num;
+	}
 	
 	$page = $settings_group;
 	$section_title = "Generate Test Posts";
-	$section_callback = "render_settings_field";
 	add_settings_section($setting_name, $section_title, null, $page);
 	
 	$field_title = "Number of Posts";
-	add_settings_field($setting_name, $field_title, "render_settings_field", $page, $setting_name);
+	$settings_field_callback = PLUGIN_NAMESPACE . "render_settings_field";
+	add_settings_field($setting_name, $field_title, $settings_field_callback, $page, $setting_name);
 	function render_settings_field()
 	{
-		echo "<input type='number' id='num_pages' name='num_pages'>";	
+		echo "<input type='number' id='" . SETTING_NAME . "' name='" . SETTING_NAME . "' max='1000' min='0'>";	
 	}
 }
 
@@ -82,14 +100,14 @@ function test_posts_num_add($new_value, $old_value)
 
 function deal_with_settings() 
 {
-	add_filter("pre_update_option_num_pages", "test_posts_num_add", 10, 2 );
-	add_action("update_option_num_pages","create_test_posts", 10, 3);
+	add_filter("pre_update_option_" . SETTING_NAME, "test_posts_num_add", 10, 2 );
+	add_action("update_option_" . SETTING_NAME, "create_test_posts", 10, 3);
 }
 
-add_action("init", "deal_with_settings");
-add_action("admin_menu", "add_settings_page");
+add_action("init", PLUGIN_NAMESPACE . "deal_with_settings");
+add_action("admin_menu", PLUGIN_NAMESPACE . "add_settings_page");
 
-function pluginPage()
+function plugin_settings_page()
 {
 	?>
 	<div class="wrap">
@@ -116,18 +134,19 @@ function delete_test_posts()
 {
 	if (check_admin_referer("delete_test_posts","test_field_nonce"))
 	    {
-    		$catID = get_cat_ID("Test Post");
-    		$posts = get_posts(array("post_type" => "post", "numberposts" => -1, "category" => array($catID)));
+    		$cat_ID = get_cat_ID(CAT_NAME);
+    		$posts = get_posts(array("post_type" => "post", "numberposts" => -1, "category" => array($cat_ID)));
     
     		foreach($posts as $post)
     		{
     			wp_trash_post($post->ID,false);
-    		} 
+    		}
+    	    wp_redirect(admin_url('admin.php?page=test-post-generator'));
+	        die();
 	    }
-	wp_redirect(admin_url('admin.php?page=test-post-generator'));
-	die();
+	wp_die();
 }
-add_action("admin_post_delete_test_posts", "delete_test_posts");
+add_action("admin_post_delete_test_posts", PLUGIN_NAMESPACE . "delete_test_posts");
 
 function create_test_posts($old_value,$value,$option)
 {
@@ -140,7 +159,7 @@ function create_test_posts($old_value,$value,$option)
 	
 	$newPageTotal = intval($value);
 	
-	$cat_id = get_cat_ID("Test Post");
+	$cat_id = get_cat_ID(CAT_NAME);
 	
 	while ($curPageNum < $newPageTotal)
 	{
@@ -161,7 +180,7 @@ function create_test_posts($old_value,$value,$option)
 
 function trash_test_posts()
 {
-	$cat_id = get_cat_ID("Test Post");
+	$cat_id = get_cat_ID(CAT_NAME);
 	$posts = get_posts(array("post_type" => "post", "numberposts" => -1, "category" => array($cat_id)));
 
 	foreach($posts as $post)
