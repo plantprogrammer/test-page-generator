@@ -101,7 +101,7 @@ function pluginPage()
 		<form action="<?php echo admin_url('admin-post.php'); ?>" method="post">
 			<input type="hidden" name="action" value="delete_test_posts">
 			<?php submit_button("Delete");
-			wp_nonce_field("delete_test_posts","test_field_nonce");
+			wp_nonce_field("delete_test_posts","test_field_nonce");?>
 		</form>
 	</div>
 	<?php 
@@ -109,7 +109,7 @@ function pluginPage()
 
 function delete_test_posts() 
 {
-	if (check_admin_referer("delete_test_posts","test_field_nonce")
+	if (check_admin_referer("delete_test_posts","test_field_nonce"))
 	    {
 		$catID = get_cat_ID("Test");
 		$posts = get_posts(array("post_type" => "post", "numberposts" => -1, "category" => array($catID)));
@@ -118,6 +118,8 @@ function delete_test_posts()
 		{
 			wp_trash_post($post->ID,false);
 		} 
+		wp_redirect(admin_url('admin.php?page=test-post-generator'));
+		die();
 	    }
 }
 add_action("admin_post_delete_test_posts", "delete_test_posts");
