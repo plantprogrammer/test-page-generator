@@ -5,15 +5,14 @@ if (!defined("WP_UNINSTALL_PLUGIN"))
 	wp_die();
 }
 
-$catID = get_cat_ID("Test");
-$pages = get_posts(array("post_type" => "post", "numberposts" => -1, "category" => array($catID)));
+$cat_ID = get_cat_ID("Test Post");
+$pages = get_posts(array("post_type" => "post", "numberposts" => -1, "category" => array($cat_ID)));
 	
-foreach($pages as $page)
+foreach($posts as $post)
 {
-	wp_delete_post($page->ID,false);
+	wp_delete_post($post->ID,false);
 
 }
 
-wp_delete_category($catID);
-
-?>
+wp_delete_category($cat_ID);
+delete_option("test-post-generator-num-pages");
