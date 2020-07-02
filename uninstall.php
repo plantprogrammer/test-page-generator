@@ -1,11 +1,16 @@
 <?php
 
+namespace test_page_generator;
+
+define("SETTING_NAME", "test_post_generator_num_pages");
+define("CAT_NAME", "Test Post");
+
 if (!defined("WP_UNINSTALL_PLUGIN"))
 {
 	wp_die();
 }
 
-$cat_ID = get_cat_ID("Test Post");
+$cat_ID = get_cat_ID(CAT_NAME);
 $pages = get_posts(array("post_type" => "post", "numberposts" => -1, "category" => array($cat_ID)));
 	
 foreach($posts as $post)
@@ -14,5 +19,5 @@ foreach($posts as $post)
 
 }
 
-wp_delete_category($cat_ID);
-delete_option("test-post-generator-num-pages");
+wp_delete_category(CAT_NAME);
+delete_option(SETTING_NAME);
