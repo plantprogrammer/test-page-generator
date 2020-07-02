@@ -1,12 +1,17 @@
 <?php
 /*
 * Plugin Name: Test Post Generator
-* Plugin URI: https://iansackofwits.com
 * Description: This plug-in will automatically generate posts for you, reducing the time to manually create multiple posts to test whatever you need.
 * Version: 1.0
-* Author: Ian
+* Author: plantprogrammer
+* Text Domain: test-page-generator
 * Author URI: https://iansackofwits.com
 * License: GPLv2 or later
+* License URI: https://www.gnu.org/licenses/gpl-3.0.en.html 
+* Tested up to: 5.4
+* Version: 1.0
+* Requires at least: 4.7
+* Requires PHP: 5.6
 */
 
 namespace test_page_generator;
