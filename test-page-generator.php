@@ -33,6 +33,15 @@ if (!defined("ABSPATH"))
 }
 
 register_deactivation_hook(__FILE__, "trash_test_posts");
+register_activation_hook(__FILE__, "add_test_page_category");
+
+function add_test_page_category()
+{
+    $category_arr = array(
+    	    "cat_name" => "Test Post");
+    	
+    $cat_id = wp_insert_category($category_arr);
+}
 
 function add_settings_page()
 {
@@ -44,17 +53,12 @@ function add_settings_page()
 	add_menu_page($page_title,$menu_title,$capability,$menu_slug,$pluginFunction);
 }
 
-function test_page_enqueue()
-{
-	wp_enqueue_style("test_post_style", plugin_dir_url(__FILE__) . "style.css");
-}
-
 add_action("admin_init","page_number_setting");
 
 function page_number_setting()
 {
 	$settings_group = "test-post-generator";
-	$setting_name = "num_pages";
+	$setting_name = "test-post-generator-num-pages";
 	register_setting($settings_group, $setting_name);
 	
 	$page = $settings_group;
@@ -83,7 +87,6 @@ function deal_with_settings()
 }
 
 add_action("init", "deal_with_settings");
-
 add_action("admin_menu", "add_settings_page");
 
 function pluginPage()
@@ -99,9 +102,11 @@ function pluginPage()
 			submit_button("Generate");?>
 		</form>
 		<form action="<?php echo admin_url('admin-post.php'); ?>" method="post">
+		    <h2>Delete All Generated Test Posts</h2>
 			<input type="hidden" name="action" value="delete_test_posts">
-			<?php submit_button("Delete");
-			wp_nonce_field("delete_test_posts","test_field_nonce");?>
+			<?php submit_button("Delete All");
+			wp_nonce_field("delete_test_posts","test_field_nonce");
+			?>
 		</form>
 	</div>
 	<?php 
@@ -111,45 +116,41 @@ function delete_test_posts()
 {
 	if (check_admin_referer("delete_test_posts","test_field_nonce"))
 	    {
-		$catID = get_cat_ID("Test");
-		$posts = get_posts(array("post_type" => "post", "numberposts" => -1, "category" => array($catID)));
-
-		foreach($posts as $post)
-		{
-			wp_trash_post($post->ID,false);
-		} 
-		wp_redirect(admin_url('admin.php?page=test-post-generator'));
-		die();
+    		$catID = get_cat_ID("Test Post");
+    		$posts = get_posts(array("post_type" => "post", "numberposts" => -1, "category" => array($catID)));
+    
+    		foreach($posts as $post)
+    		{
+    			wp_trash_post($post->ID,false);
+    		} 
 	    }
+	wp_redirect(admin_url('admin.php?page=test-post-generator'));
+	die();
 }
 add_action("admin_post_delete_test_posts", "delete_test_posts");
 
 function create_test_posts($old_value,$value,$option)
 {
-	//implement some random capability to insert random text to the post
-	
-    $text = "Test";
-    $headingNum = 1;
-    $textComplete = "<h" . $headingNum . ">" . $text . "</h" . $headingNum . ">";
+	$post_text = "<p>Lorem ipsum dolor sit amet, ad tota quaerendum per, duo debitis volumus at, ad regione voluptua quo. 
+	Mel eripuit erroribus in, eum no dicunt signiferumque. Ut integre incorrupte cum, sed at harum oratio laboramus. 
+	Nam et liber volutpat. Eum sententiae reprimique theophrastus et, tollit mucius accumsan ei cum. 
+	Mel integre accusam epicuri te, eum eu meis dictas abhorreant. Mei ea nulla scripta expetendis, ad nec omnes tincidunt.</p>";
 
 	$curPageNum = intval($old_value);
 	
 	$newPageTotal = intval($value);
 	
-	$category_arr = array(
-	    "cat_name" => "Test Post");
-	
-	$cat_id = wp_insert_category($category_arr);
+	$cat_id = get_cat_ID("Test Post");
 	
 	while ($curPageNum < $newPageTotal)
 	{
-		$title = "Test Page" . " " . $curPageNum;
+		$title = "Test Post" . " " . $curPageNum;
 
 		$post_data = array(
 		"post_title" => $title,
 		"post_type" => "post",
-		"post_content" => $textComplete,
-		"post_status" => "publish",
+		"post_content" => $post_text,
+		"post_status" => "private",
 		"post_category" => array($cat_id)	
 		
 	);
@@ -160,8 +161,8 @@ function create_test_posts($old_value,$value,$option)
 
 function trash_test_posts()
 {
-	$catID = get_cat_ID("Test");
-	$posts = get_posts(array("post_type" => "post", "numberposts" => -1, "category" => array($catID)));
+	$cat_id = get_cat_ID("Test Post");
+	$posts = get_posts(array("post_type" => "post", "numberposts" => -1, "category" => array($cat_id)));
 
 	foreach($posts as $post)
 	{
@@ -169,4 +170,3 @@ function trash_test_posts()
 	}
 }
 
-?>
