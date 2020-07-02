@@ -20,6 +20,12 @@ All test posts will currently be populated with latin text i.e. "Lorem ipsum..."
 
 You can easily trash all the test posts if you wish to do so.
 
+== Frequently Asked Questions == 
+
+= Do you provide support? =
+
+Yes, I do. Please create a new topic in the "Support Threads."
+
 == Screenshots ==
 
 1. The view from the settings page.
