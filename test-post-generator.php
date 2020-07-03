@@ -4,7 +4,7 @@
 * Description: This plug-in will automatically generate posts for you, reducing the time to manually create multiple posts to test whatever you need.
 * Version: 1.0
 * Author: plantprogrammer
-* Text Domain: test-page-generator
+* Text Domain: test-post-generator
 * Author URI: https://iansackofwits.com
 * License: GPLv2 or later
 * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html 
