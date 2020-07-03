@@ -3,7 +3,7 @@ Author URI: https://iansackofwits.com
 Contributors: plantprogrammer
 Donate link: https://iansackofwits.com
 Tags: test post generator, test posts, testing, test
-Requires at least: 4.7
+Requires at least: 5.0.0
 Tested up to: 5.4
 Requires PHP: 5.6
 Stable tag: 1.0
