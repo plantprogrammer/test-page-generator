@@ -10,7 +10,7 @@
 * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html 
 * Tested up to: 5.4
 * Version: 1.0
-* Requires at least: 4.7
+* Requires at least: 5.0
 * Requires PHP: 5.6
 */
 
