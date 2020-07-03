@@ -4,7 +4,7 @@
 * Description: This plug-in will automatically generate posts for you, reducing the time to manually create multiple posts to test whatever you need.
 * Version: 1.0
 * Author: plantprogrammer
-* Text Domain: test-post-generator
+* Text Domain: test-page-generator
 * Author URI: https://iansackofwits.com
 * License: GPLv2 or later
 * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html 
@@ -14,7 +14,7 @@
 * Requires PHP: 5.6
 */
 
-namespace test_page_generator;
+namespace test_post_generator;
 
 /*
 This program is free software; you can redistribute it and/or
@@ -41,7 +41,7 @@ if (!defined("ABSPATH"))
 
 define("TEST_POST_CAT_NAME", "Test Post");
 define("TEST_POST_SETTING_NAME", "test_post_generator_num_pages");
-define("TEST_POST_PLUGIN_NAMESPACE", "test_page_generator\\");
+define("TEST_POST_PLUGIN_NAMESPACE", "test_post_generator\\");
 
 register_deactivation_hook(__FILE__, TEST_POST_PLUGIN_NAMESPACE . "trash_test_posts");
 register_activation_hook(__FILE__, TEST_POST_PLUGIN_NAMESPACE . "add_test_post_category");
