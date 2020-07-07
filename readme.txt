@@ -22,9 +22,6 @@ You can easily trash all the test posts if you wish to do so.
 
 == Upgrade Notice ==
 
-= 1.0 =
-Initial release.
-
 == Frequently Asked Questions == 
 
 = Do you provide support? =
