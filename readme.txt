@@ -22,14 +22,19 @@ You can easily trash all the test posts if you wish to do so.
 
 == Upgrade Notice ==
 
+= 1.0 =
+Initial release.
+
 == Frequently Asked Questions == 
 
 = Do you provide support? =
 Yes, I do. Please create a new topic in the "Support Threads."
 
 = Who made the plugin? =
-
 [Ian](https://iansackofwits.com) made this plugin.
+
+= What happens when this plugin is deleted? =
+All of the posts that this plugin creates will be deleted and no longer accessible. The database setting option that this plugin creates will also be removed.
 
 == Screenshots ==
 
