@@ -2,7 +2,7 @@
 Author URI: https://iansackofwits.com
 Contributors: plantprogrammer
 Donate link: https://iansackofwits.com
-Tags: test post generator, test posts, testing, test
+Tags: test post generator, test posts, test post, testing, test
 Requires at least: 5.0
 Tested up to: 5.4
 Requires PHP: 5.6
@@ -28,8 +28,11 @@ Initial release.
 == Frequently Asked Questions == 
 
 = Do you provide support? =
-
 Yes, I do. Please create a new topic in the "Support Threads."
+
+= Who made the plugin? =
+
+[Ian](https://iansackofwits.com) made this plugin.
 
 == Screenshots ==
 
